@@ -38,15 +38,6 @@ const UpdateProfile = () => {
       .finally(() => {
         setLoading(false);
       });
-
-    try {
-      setError("");
-      setLoading(true);
-      history.push("/");
-    } catch {
-      setError("Failed to create an account");
-    }
-    setLoading(false);
   };
 
   return (
