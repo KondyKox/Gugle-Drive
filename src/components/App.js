@@ -17,6 +17,7 @@ function App() {
         <Switch>
           {/* Drive */}
           <PrivateRoute path="/" component={Dashboard} />
+          <PrivateRoute path="/folder/:folderId" component={Dashboard} />
 
           {/* Profile */}
           <PrivateRoute path="/user" component={Profile} />

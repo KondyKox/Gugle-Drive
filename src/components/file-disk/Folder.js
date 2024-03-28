@@ -1,11 +1,21 @@
-import React from 'react'
+import React from "react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFolder } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "react-bootstrap";
 
-const Folder = ({folder}) => {
+const Folder = ({ folder }) => {
   return (
-    <div>
+    <Button
+      to={`folder/${folder.id}`}
+      variant="outline-dark"
+      className="text-truncate w-100"
+      as={Link}
+    >
+      <FontAwesomeIcon icon={faFolder} className="me-2" />
       {folder.name}
-    </div>
-  )
-}
+    </Button>
+  );
+};
 
-export default Folder
+export default Folder;
