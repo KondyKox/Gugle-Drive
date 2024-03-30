@@ -1,18 +1,21 @@
 import React from "react";
-import Navbar from "./Navbar";
 import { Container } from "react-bootstrap";
+import { useFolder } from "../../hooks/useFolder";
 import AddFolderButton from "./AddFolderButton";
 import AddFileButton from "./AddFileButton";
-import { useFolder } from "../../hooks/useFolder";
 import Folder from "./Folder";
 import File from "./File";
-import { useParams, useLocation } from "react-router-dom";
+import Navbar from "./Navbar";
 import FolderBreadcrumbs from "./FolderBreadcrumbs";
+import { useParams, useLocation } from "react-router-dom";
 
-const Dashboard = () => {
+export default function Dashboard() {
   const { folderId } = useParams();
   const { state = {} } = useLocation();
-  const { folder, childFolders, childFiles } = useFolder(folderId, state.folder);
+  const { folder, childFolders, childFiles } = useFolder(
+    folderId,
+    state.folder
+  );
 
   return (
     <>
@@ -36,7 +39,6 @@ const Dashboard = () => {
             ))}
           </div>
         )}
-
         {childFolders.length > 0 && childFiles.length > 0 && <hr />}
         {childFiles.length > 0 && (
           <div className="d-flex flex-wrap">
@@ -54,6 +56,4 @@ const Dashboard = () => {
       </Container>
     </>
   );
-};
-
-export default Dashboard;
+}

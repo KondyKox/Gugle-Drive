@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 
-const CenteredContainer = ({ children }) => {
+export default function CenteredContainer({ children }) {
   return (
     <Container
       className="d-flex align-items-center justify-content-center"
@@ -12,6 +12,4 @@ const CenteredContainer = ({ children }) => {
       </div>
     </Container>
   );
-};
-
-export default CenteredContainer;
+}

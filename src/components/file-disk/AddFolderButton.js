@@ -1,34 +1,34 @@
 import React, { useState } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Modal, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolderPlus } from "@fortawesome/free-solid-svg-icons";
 import { database } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { ROOT_FOLDER } from "../../hooks/useFolder";
 
-const AddFolderButton = ({ currentFolder }) => {
+export default function AddFolderButton({ currentFolder }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const { currentUser } = useAuth();
 
-  const openModal = () => {
+  function openModal() {
     setOpen(true);
-  };
+  }
 
-  const closeModal = () => {
+  function closeModal() {
     setOpen(false);
-  };
+  }
 
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
 
     if (currentFolder == null) return;
 
     const path = [...currentFolder.path];
-    if (currentFolder !== ROOT_FOLDER)
+    if (currentFolder !== ROOT_FOLDER) {
       path.push({ name: currentFolder.name, id: currentFolder.id });
+    }
 
-    // Create a folder
     database.folders.add({
       name: name,
       parentId: currentFolder.id,
@@ -38,7 +38,7 @@ const AddFolderButton = ({ currentFolder }) => {
     });
     setName("");
     closeModal();
-  };
+  }
 
   return (
     <>
@@ -63,13 +63,11 @@ const AddFolderButton = ({ currentFolder }) => {
               Close
             </Button>
             <Button variant="success" type="submit">
-              Add folder
+              Add Folder
             </Button>
           </Modal.Footer>
         </Form>
       </Modal>
     </>
   );
-};
-
-export default AddFolderButton;
+}

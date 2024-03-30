@@ -1,6 +1,6 @@
-import { useEffect, useReducer } from "react";
-import { database } from "../firebase";
+import { useReducer, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
+import { database } from "../firebase";
 
 const ACTIONS = {
   SELECT_FOLDER: "select-folder",
@@ -70,8 +70,7 @@ export function useFolder(folderId = null, folder = null) {
           payload: { folder: database.formatDoc(doc) },
         });
       })
-      .catch((e) => {
-        console.error(e);
+      .catch(() => {
         dispatch({
           type: ACTIONS.UPDATE_FOLDER,
           payload: { folder: ROOT_FOLDER },

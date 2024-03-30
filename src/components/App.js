@@ -1,6 +1,5 @@
 import React from "react";
 import Signup from "./authentication/Signup";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { AuthProvider } from "../contexts/AuthContext";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Profile from "./authentication/Profile";
@@ -16,16 +15,12 @@ function App() {
       <AuthProvider>
         <Switch>
           {/* Drive */}
-          <PrivateRoute path="/" component={Dashboard} />
-          <PrivateRoute path="/folder/:folderId" component={Dashboard} />
+          <PrivateRoute exact path="/" component={Dashboard} />
+          <PrivateRoute exact path="/folder/:folderId" component={Dashboard} />
 
           {/* Profile */}
           <PrivateRoute path="/user" component={Profile} />
-          <PrivateRoute
-            exact
-            path="/update-profile"
-            component={UpdateProfile}
-          />
+          <PrivateRoute path="/update-profile" component={UpdateProfile} />
 
           {/* Auth */}
           <Route path="/signup" component={Signup} />

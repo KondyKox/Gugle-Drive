@@ -1,28 +1,26 @@
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
 import { faFileUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
-import ReactDOM from "react-dom/client";
-import { storage, database } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
+import { storage, database } from "../../firebase";
 import { ROOT_FOLDER } from "../../hooks/useFolder";
 import { v4 as uuidV4 } from "uuid";
 import { ProgressBar, Toast } from "react-bootstrap";
 
-const AddFileButton = ({ currentFolder }) => {
+export default function AddFileButton({ currentFolder }) {
   const [uploadingFiles, setUploadingFiles] = useState([]);
   const { currentUser } = useAuth();
 
-  const handleUpdate = (e) => {
+  function handleUpload(e) {
     const file = e.target.files[0];
     if (currentFolder == null || file == null) return;
 
-    // Set uploading files
     const id = uuidV4();
     setUploadingFiles((prevUploadingFiles) => [
       ...prevUploadingFiles,
       { id: id, name: file.name, progress: 0, error: false },
     ]);
-
     const filePath =
       currentFolder === ROOT_FOLDER
         ? `${currentFolder.path.join("/")}/${file.name}`
@@ -32,15 +30,16 @@ const AddFileButton = ({ currentFolder }) => {
       .ref(`/files/${currentUser.uid}/${filePath}`)
       .put(file);
 
-    //   Upload files
     uploadTask.on(
       "state_changed",
       (snapshot) => {
         const progress = snapshot.bytesTransferred / snapshot.totalBytes;
         setUploadingFiles((prevUploadingFiles) => {
           return prevUploadingFiles.map((uploadFile) => {
-            if (uploadFile.id === id)
+            if (uploadFile.id === id) {
               return { ...uploadFile, progress: progress };
+            }
+
             return uploadFile;
           });
         });
@@ -48,7 +47,9 @@ const AddFileButton = ({ currentFolder }) => {
       () => {
         setUploadingFiles((prevUploadingFiles) => {
           return prevUploadingFiles.map((uploadFile) => {
-            if (uploadFile.id === id) return { ...uploadFile, error: true };
+            if (uploadFile.id === id) {
+              return { ...uploadFile, error: true };
+            }
             return uploadFile;
           });
         });
@@ -68,8 +69,9 @@ const AddFileButton = ({ currentFolder }) => {
             .get()
             .then((existingFiles) => {
               const existingFile = existingFiles.docs[0];
-              if (existingFile) existingFile.ref.update({ url: url });
-              else {
+              if (existingFile) {
+                existingFile.ref.update({ url: url });
+              } else {
                 database.files.add({
                   url: url,
                   name: file.name,
@@ -82,7 +84,7 @@ const AddFileButton = ({ currentFolder }) => {
         });
       }
     );
-  };
+  }
 
   return (
     <>
@@ -90,7 +92,7 @@ const AddFileButton = ({ currentFolder }) => {
         <FontAwesomeIcon icon={faFileUpload} />
         <input
           type="file"
-          onChange={handleUpdate}
+          onChange={handleUpload}
           style={{ opacity: 0, position: "absolute", left: "-9999px" }}
         />
       </label>
@@ -140,6 +142,4 @@ const AddFileButton = ({ currentFolder }) => {
         )}
     </>
   );
-};
-
-export default AddFileButton;
+}

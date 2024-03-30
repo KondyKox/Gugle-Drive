@@ -2,11 +2,11 @@ import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const NavbarComponent = () => {
+export default function NavbarComponent() {
   return (
-    <Navbar bg="light" expand="sm" className="px-3">
+    <Navbar bg="light" expand="sm" className="mx-3">
       <Navbar.Brand as={Link} to="/">
-        Gugle Drive
+        WDS Drive
       </Navbar.Brand>
       <Nav>
         <Nav.Link as={Link} to="/user">
@@ -15,6 +15,4 @@ const NavbarComponent = () => {
       </Nav>
     </Navbar>
   );
-};
-
-export default NavbarComponent;
+}
