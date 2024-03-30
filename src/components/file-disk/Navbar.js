@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function NavbarComponent() {
   return (
-    <Navbar bg="light" expand="sm" className="mx-3">
+    <Navbar bg="light" expand="sm" className="px-3 mb-2">
       <Navbar.Brand as={Link} to="/">
         WDS Drive
       </Navbar.Brand>
